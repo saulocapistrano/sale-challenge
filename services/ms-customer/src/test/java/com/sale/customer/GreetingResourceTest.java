@@ -1,4 +1,4 @@
-package com.sale.customer.adapters.in;
+package com.sale.customer;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
