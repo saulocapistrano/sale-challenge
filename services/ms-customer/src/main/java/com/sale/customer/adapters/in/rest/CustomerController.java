@@ -1,5 +1,6 @@
 package com.sale.customer.adapters.in.rest;
 
+import com.sale.customer.adapters.in.rest.dto.CustomerRequestDTO;
 import com.sale.customer.application.ports.in.RegisterCustomerUseCase;
 import com.sale.customer.domain.model.Customer;
 import jakarta.inject.Inject;
@@ -21,8 +22,15 @@ public class CustomerController {
 
     // POST /customers
     @POST
-    public Response createCustomer(@Valid Customer customer) {
+    public Response createCustomer(@Valid CustomerRequestDTO request) {
+        Customer customer = Customer.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .cpf(request.getCpf())
+                .build();
+
         Customer saved = customerUseCase.execute(customer);
+
         return Response.status(Response.Status.CREATED).entity(saved).build();
     }
 
