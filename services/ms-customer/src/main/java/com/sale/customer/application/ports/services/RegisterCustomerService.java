@@ -2,7 +2,6 @@ package com.sale.customer.application.ports.services;
 
 import com.sale.customer.application.ports.in.RegisterCustomerUseCase;
 import com.sale.customer.domain.model.Customer;
-import com.sale.customer.domain.repository.CustomerRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

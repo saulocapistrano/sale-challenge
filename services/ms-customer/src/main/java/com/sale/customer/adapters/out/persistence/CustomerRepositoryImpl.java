@@ -1,8 +1,8 @@
 package com.sale.customer.adapters.out.persistence;
 
 import com.sale.customer.adapters.out.persistence.entity.CustomerEntity;
+import com.sale.customer.application.ports.out.CustomerRepositoryPort;
 import com.sale.customer.domain.model.Customer;
-import com.sale.customer.domain.repository.CustomerRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class CustomerRepositoryImpl implements CustomerRepository {
+public class CustomerRepositoryImpl implements CustomerRepositoryPort {
 
     @Override
     public Customer save(Customer customer) {

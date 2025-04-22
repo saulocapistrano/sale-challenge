@@ -1,6 +1,7 @@
 package com.sale.customer.adapters.in.rest;
 
 import com.sale.customer.adapters.in.rest.dto.CustomerRequestDTO;
+import com.sale.customer.application.ports.in.ListCustomersUseCase;
 import com.sale.customer.application.ports.in.RegisterCustomerUseCase;
 import com.sale.customer.domain.model.Customer;
 import jakarta.inject.Inject;
@@ -20,6 +21,9 @@ public class CustomerController {
     @Inject
     RegisterCustomerUseCase customerUseCase;
 
+    @Inject
+    ListCustomersUseCase listCustomersUseCase;
+
     // POST /customers
     @POST
     public Response createCustomer(@Valid CustomerRequestDTO request) {
@@ -37,7 +41,7 @@ public class CustomerController {
     // GET /customers
     @GET
     public Response findAll() {
-        List<Customer> customers = List.of(); // Vamos implementar isso depois
+        List<Customer> customers = listCustomersUseCase.findAll();
         return Response.ok(customers).build();
     }
 
