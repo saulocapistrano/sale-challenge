@@ -1,6 +1,6 @@
-package com.sale.customer.application.ports.services;
+package com.sale.customer.application.ports.usecase;
 
-import com.sale.customer.application.ports.in.RegisterCustomerUseCase;
+import com.sale.customer.application.ports.out.CustomerRepositoryPort;
 import com.sale.customer.domain.model.Customer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -8,20 +8,18 @@ import jakarta.inject.Inject;
 import java.util.UUID;
 
 @ApplicationScoped
-public class RegisterCustomerService implements RegisterCustomerUseCase {
+public class RegisterCustomerUseCaseImpl implements com.sale.customer.application.ports.in.RegisterCustomerUseCase {
 
     @Inject
-    CustomerRepository customerRepository;
+    CustomerRepositoryPort customerRepository;
 
     @Override
     public Customer execute(Customer customer) {
-        // Verifica se já existe cliente com o mesmo e-mail
         customerRepository.findByEmail(customer.getEmail())
                 .ifPresent(existing -> {
                     throw new RuntimeException("Customer already exists with this email.");
                 });
 
-        // Define um novo UUID (simulação — futuramente movemos para entidade ou evento)
         customer.setId(UUID.randomUUID());
         customer.setActive(true);
 
