@@ -1,6 +1,8 @@
 package com.sale.customer.adapters.in.rest;
 
 import com.sale.customer.adapters.in.rest.dto.CustomerRequestDTO;
+import com.sale.customer.adapters.in.rest.dto.CustomerResponseDTO;
+import com.sale.customer.adapters.in.rest.mapper.CustomerMapper;
 import com.sale.customer.application.ports.in.*;
 import com.sale.customer.domain.model.Customer;
 import jakarta.inject.Inject;
@@ -31,7 +33,6 @@ public class CustomerController {
     UpdateCustomerUseCase updateCustomerUseCase;
 
 
-
     // POST /customers
     @POST
     public Response createCustomer(@Valid CustomerRequestDTO request) {
@@ -49,7 +50,11 @@ public class CustomerController {
     // GET /customers
     @GET
     public Response findAll() {
-        List<Customer> customers = listCustomersUseCase.execute();
+        List<CustomerResponseDTO> customers = listCustomersUseCase.execute()
+                .stream()
+                .map(CustomerMapper::toResponseDTO)
+                .toList();
+
         return Response.ok(customers).build();
     }
 
