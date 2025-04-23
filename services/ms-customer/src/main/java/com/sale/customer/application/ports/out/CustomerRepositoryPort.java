@@ -1,7 +1,6 @@
 package com.sale.customer.application.ports.out;
 
 import com.sale.customer.domain.model.Customer;
-import com.sale.customer.domain.vo.Email;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,5 +12,5 @@ public interface CustomerRepositoryPort {
     List<Customer> findAll();
     void delete(UUID id);
     void deleteById(UUID id);
-    Optional<Customer> findByEmail(Email email);
+    Optional<Customer> findByEmail(String email);
 }
