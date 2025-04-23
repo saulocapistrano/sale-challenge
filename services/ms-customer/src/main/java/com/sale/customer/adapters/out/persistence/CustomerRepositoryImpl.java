@@ -1,5 +1,6 @@
 package com.sale.customer.adapters.out.persistence;
 
+import com.sale.customer.adapters.in.rest.mapper.CustomerMapper;
 import com.sale.customer.adapters.out.persistence.entity.CustomerEntity;
 import com.sale.customer.application.ports.out.CustomerRepositoryPort;
 import com.sale.customer.domain.model.Customer;
@@ -15,28 +16,27 @@ public class CustomerRepositoryImpl implements CustomerRepositoryPort {
 
     @Override
     public Customer save(Customer customer) {
-        CustomerEntity entity = toEntity(customer);
+        CustomerEntity entity = CustomerMapper.toEntity(customer);
         entity.persist();
-        return toDomain(entity);
+        return CustomerMapper.toDomain(entity);
     }
 
     @Override
     public Optional<Customer> findById(UUID id) {
         return CustomerEntity.findByIdOptional(id)
-                .map(e -> toDomain((CustomerEntity) e));
-
+                .map(e -> CustomerMapper.toDomain((CustomerEntity) e));
     }
 
     @Override
     public List<Customer> findAll() {
         return CustomerEntity.listAll().stream()
-                .map(e -> toDomain((CustomerEntity) e))
+                .map(e -> CustomerMapper.toDomain((CustomerEntity) e))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void delete(UUID id) {
-
+        CustomerEntity.deleteById(id);
     }
 
     @Override
@@ -47,27 +47,6 @@ public class CustomerRepositoryImpl implements CustomerRepositoryPort {
     @Override
     public Optional<Customer> findByEmail(String email) {
         return CustomerEntity.find("email", email).firstResultOptional()
-                .map(e -> toDomain((CustomerEntity) e));
-    }
-
-    // Mapper methods
-    private CustomerEntity toEntity(Customer customer) {
-        return CustomerEntity.builder()
-                .id(customer.getId())
-                .name(customer.getName())
-                .email(customer.getEmail())
-                .cpf(customer.getCpf())
-                .active(customer.isActive())
-                .build();
-    }
-
-    private Customer toDomain(CustomerEntity entity) {
-        return Customer.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .email(entity.getEmail())
-                .cpf(entity.getCpf())
-                .active(entity.isActive())
-                .build();
+                .map(e -> CustomerMapper.toDomain((CustomerEntity) e));
     }
 }
