@@ -1,6 +1,7 @@
 package com.sale.customer.application.ports.usecase;
 
 import com.sale.customer.application.ports.out.CustomerRepositoryPort;
+import com.sale.customer.domain.exception.EmailAlreadyExistsException;
 import com.sale.customer.domain.model.Customer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -15,9 +16,9 @@ public class RegisterCustomerUseCaseImpl implements com.sale.customer.applicatio
 
     @Override
     public Customer execute(Customer customer) {
-        customerRepository.findByEmail(customer.getEmail())
+        customerRepository.findByEmail(customer.getEmail().getValue())
                 .ifPresent(existing -> {
-                    throw new RuntimeException("Customer already exists with this email.");
+                    throw new EmailAlreadyExistsException(customer.getEmail().getValue());
                 });
 
         customer.setId(UUID.randomUUID());
