@@ -13,7 +13,7 @@ public class CustomerRequestDTO {
 
     @Email
     @NotBlank
-    private String email;
+    private com.sale.customer.domain.vo.Email email;
 
     @CPF
     @NotBlank
