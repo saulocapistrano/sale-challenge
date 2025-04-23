@@ -1,8 +1,7 @@
 package com.sale.customer.adapters.in.rest;
 
 import com.sale.customer.adapters.in.rest.dto.CustomerRequestDTO;
-import com.sale.customer.application.ports.in.ListCustomersUseCase;
-import com.sale.customer.application.ports.in.RegisterCustomerUseCase;
+import com.sale.customer.application.ports.in.*;
 import com.sale.customer.domain.model.Customer;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -24,6 +23,15 @@ public class CustomerController {
     @Inject
     ListCustomersUseCase listCustomersUseCase;
 
+    @Inject
+    FindCustomerByIdUseCase findCustomerByIdUseCase;
+    @Inject
+    DeleteCustomerUseCase deleteCustomerUseCase;
+    @Inject
+    UpdateCustomerUseCase updateCustomerUseCase;
+
+
+
     // POST /customers
     @POST
     public Response createCustomer(@Valid CustomerRequestDTO request) {
@@ -41,21 +49,42 @@ public class CustomerController {
     // GET /customers
     @GET
     public Response findAll() {
-        List<Customer> customers = listCustomersUseCase.findAll();
+        List<Customer> customers = listCustomersUseCase.execute();
         return Response.ok(customers).build();
     }
 
     // GET /customers/{id}
+
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") UUID id) {
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        return findCustomerByIdUseCase.execute(id)
+                .map(Response::ok)
+                .orElse(Response.status(Response.Status.NOT_FOUND))
+                .build();
     }
+
+    @PUT
+    @Path("/{id}")
+    public Response update(@PathParam("id") UUID id, @Valid CustomerRequestDTO request) {
+        Customer customer = Customer.builder()
+                .id(id)
+                .name(request.getName())
+                .email(request.getEmail())
+                .cpf(request.getCpf())
+                .active(true)
+                .build();
+
+        Customer updated = updateCustomerUseCase.execute(customer);
+        return Response.ok(updated).build();
+    }
+
 
     // DELETE /customers/{id}
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") UUID id) {
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        deleteCustomerUseCase.execute(id);
+        return Response.noContent().build();
     }
 }
