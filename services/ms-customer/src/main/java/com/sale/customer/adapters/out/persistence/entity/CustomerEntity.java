@@ -1,5 +1,7 @@
 package com.sale.customer.adapters.out.persistence.entity;
 
+import com.sale.customer.adapters.out.persistence.converter.EmailConverter;
+import com.sale.customer.domain.vo.Email;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,7 +25,8 @@ public class CustomerEntity extends PanacheEntityBase {
     private String name;
 
     @Column(unique = true)
-    private String email;
+    @Convert(converter = EmailConverter.class)
+    private Email email;
 
     @Column(unique = true)
     private String cpf;
