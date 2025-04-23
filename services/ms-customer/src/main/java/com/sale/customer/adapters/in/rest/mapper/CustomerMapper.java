@@ -1,5 +1,6 @@
 package com.sale.customer.adapters.in.rest.mapper;
 
+import com.sale.customer.adapters.in.rest.dto.CustomerResponseDTO;
 import com.sale.customer.adapters.out.persistence.entity.CustomerEntity;
 import com.sale.customer.domain.model.Customer;
 
@@ -33,6 +34,16 @@ public class CustomerMapper {
         entity.setEmail(customer.getEmail());
         entity.setCpf(customer.getCpf());
         entity.setActive(customer.isActive());
+    }
+
+    public static CustomerResponseDTO toResponseDTO(Customer customer){
+        return CustomerResponseDTO.builder()
+                .id(customer.getId())
+                .name(customer.getName())
+                .cpf(customer.getCpf())
+                .email(customer.getEmail())
+                .active(customer.isActive())
+                .build();
     }
 
 }
