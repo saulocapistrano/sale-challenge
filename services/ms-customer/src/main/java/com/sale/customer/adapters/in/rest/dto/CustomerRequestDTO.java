@@ -11,9 +11,9 @@ public class CustomerRequestDTO {
     @NotBlank
     private String name;
 
-    @Email
-    @NotBlank
-    private com.sale.customer.domain.vo.Email email;
+    @NotBlank(message = "Email é obrigatório")
+    @Email(message = "Formato de e-mail inválido")
+    private String email;
 
     @CPF
     @NotBlank
