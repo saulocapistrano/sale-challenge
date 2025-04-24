@@ -28,8 +28,30 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- Quarkus BOM -->
+            <dependency>
+                <groupId>${quarkus.platform.group-id}</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${quarkus.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Lombok (centralizado) -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.30</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+                <version>${quarkus.platform.version}</version>
+            </dependency>
         </dependencies>
-    </dependencyManagement>
+
+   </dependencyManagement>
 
     <build>
         <pluginManagement>
