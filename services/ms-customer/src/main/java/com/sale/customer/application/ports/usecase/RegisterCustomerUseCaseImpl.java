@@ -5,6 +5,7 @@ import com.sale.customer.domain.exception.EmailAlreadyExistsException;
 import com.sale.customer.domain.model.Customer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.UUID;
 
@@ -15,10 +16,11 @@ public class RegisterCustomerUseCaseImpl implements com.sale.customer.applicatio
     CustomerRepositoryPort customerRepository;
 
     @Override
+    @Transactional
     public Customer execute(Customer customer) {
-        customerRepository.findByEmail(customer.getEmail().getValue())
+        customerRepository.findByEmail(customer.getEmail())
                 .ifPresent(existing -> {
-                    throw new EmailAlreadyExistsException(customer.getEmail().getValue());
+                    throw new EmailAlreadyExistsException(customer.getEmail());
                 });
 
         customer.setId(UUID.randomUUID());
