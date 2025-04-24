@@ -5,6 +5,7 @@ import com.sale.customer.application.ports.out.CustomerRepositoryPort;
 import com.sale.customer.domain.model.Customer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ public class UpdateCustomerUseCaseImpl implements UpdateCustomerUseCase {
     CustomerRepositoryPort customerRepository;
 
     @Override
+    @Transactional
     public Customer execute(Customer customer) {
         UUID id = customer.getId();
 
