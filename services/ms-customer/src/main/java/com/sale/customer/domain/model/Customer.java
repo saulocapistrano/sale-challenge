@@ -1,6 +1,5 @@
 package com.sale.customer.domain.model;
 
-import com.sale.customer.domain.vo.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,17 +21,12 @@ public class Customer {
     private String name;
 
     @NotBlank(message = "Mail is required")
-    private com.sale.customer.domain.vo.Email email;
+    private String email;
 
     @NotBlank(message = "Cpf is required")
     @CPF
     private String cpf;
 
     private boolean active;
-
-    public Builder email(Email email) {
-        this.email = email;
-        return (Builder) this;
-    }
 
 }
