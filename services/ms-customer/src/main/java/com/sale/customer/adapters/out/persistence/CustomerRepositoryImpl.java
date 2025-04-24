@@ -5,6 +5,8 @@ import com.sale.customer.adapters.out.persistence.entity.CustomerEntity;
 import com.sale.customer.application.ports.out.CustomerRepositoryPort;
 import com.sale.customer.domain.model.Customer;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +16,12 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class CustomerRepositoryImpl implements CustomerRepositoryPort {
 
+    @PersistenceContext
+    EntityManager entityManager;
     @Override
     public Customer save(Customer customer) {
         CustomerEntity entity = CustomerMapper.toEntity(customer);
-        entity.persist();
+        entity = entityManager.merge(entity);
         return CustomerMapper.toDomain(entity);
     }
 
