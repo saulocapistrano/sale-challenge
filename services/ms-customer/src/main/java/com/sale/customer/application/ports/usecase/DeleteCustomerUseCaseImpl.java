@@ -4,6 +4,7 @@ import com.sale.customer.application.ports.in.DeleteCustomerUseCase;
 import com.sale.customer.application.ports.out.CustomerRepositoryPort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ public class DeleteCustomerUseCaseImpl implements DeleteCustomerUseCase {
     CustomerRepositoryPort customerRepositoryPort;
 
     @Override
+    @Transactional
     public void execute(UUID id){
         customerRepositoryPort.delete(id);
     }
