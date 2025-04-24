@@ -33,7 +33,6 @@ public class CustomerController {
     UpdateCustomerUseCase updateCustomerUseCase;
 
 
-    // POST /customers
     @POST
     public Response createCustomer(@Valid CustomerRequestDTO request) {
         Customer customer = Customer.builder()
@@ -47,7 +46,6 @@ public class CustomerController {
         return Response.status(Response.Status.CREATED).entity(saved).build();
     }
 
-    // GET /customers
     @GET
     public Response findAll() {
         List<CustomerResponseDTO> customers = listCustomersUseCase.execute()
@@ -57,8 +55,6 @@ public class CustomerController {
 
         return Response.ok(customers).build();
     }
-
-    // GET /customers/{id}
 
     @GET
     @Path("/{id}")
@@ -84,8 +80,6 @@ public class CustomerController {
         return Response.ok(updated).build();
     }
 
-
-    // DELETE /customers/{id}
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") UUID id) {
